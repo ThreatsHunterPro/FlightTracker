@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MyLib</name>
+    </assembly>
+    <members>
+        <member name="M:MyLib.Calculus.Calculus.Add(System.Double,System.Double)">
+            <summary>
+            Method that adds two values together
+            </summary>
+            <param name="_a"></param>
+            <param name="_b"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MyLib.Calculus.Calculus.Add(System.Double[])">
+            <summary>
+            Method that adds a collection of params
+            </summary>
+            <param name="_params"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MyLib.Calculus.Calculus.Sub(System.Double,System.Double)">
+            <summary>
+            Method that substracts two values together
+            </summary>
+            <param name="_a"></param>
+            <param name="_b"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

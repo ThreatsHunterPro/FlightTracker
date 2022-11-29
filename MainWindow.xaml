@@ -1,43 +1,45 @@
-﻿<Window x:Class="FlightTrackerCorr.MainWindow"
+﻿<Window x:Name="flightTracker" x:Class="FlightTracker.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:FlightTrackerCorr"
+        xmlns:local="clr-namespace:FlightTracker"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid Background="#FFCFCFCF">
-        <Button x:Name="reloadButton" Content="Reload" HorizontalAlignment="Left" Margin="30,26,0,0" VerticalAlignment="Top" Width="90" FontWeight="Bold" Height="25" Click="OnReloadClicked"/>
-        <ListBox x:Name="pilotList" Height="235" Margin="30,87,30,0" VerticalAlignment="Top">
+        Title="Flight tracker" Height="647" Width="964">
+    <Grid Margin="0,0,0,-1" Background="#FF343434">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="195*"/>
+            <RowDefinition Height="224*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="25*"/>
+            <ColumnDefinition Width="55*"/>
+            <ColumnDefinition Width="316*"/>
+        </Grid.ColumnDefinitions>
+        <Image x:Name="flightIcon" Grid.Column="1" HorizontalAlignment="Left" Height="80" Margin="19,10,0,0" VerticalAlignment="Top" Width="81" Source="PlaneTrackerIcon2-removebg-preview.png" Stretch="Fill"/>
+        <Label x:Name="flightLabel" Content="Plane Tracker" Grid.Column="1" HorizontalAlignment="Left" Margin="119,25,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="181" Height="55" FontFamily="Candara" FontSize="28" Foreground="White" FontWeight="Bold" RenderTransformOrigin="0.503,0.175" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <Label x:Name="dateAndTimeLabel" Grid.Column="2" HorizontalAlignment="Left" Margin="147,278,0,0" VerticalAlignment="Top" Width="280" Height="45" FontSize="28" FontFamily="Candara" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="1"/>
+        <Button x:Name="refreshButton" Content="Refresh" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" BorderBrush="Black" Height="35" Grid.Column="2" Margin="552,45,0,0" FontFamily="Candara" FontSize="18" Click="OnRefreshed"/>
+        <ListBox x:Name="flightList" Grid.Column="1" HorizontalAlignment="Left" Height="300" Margin="20,100,0,0" VerticalAlignment="Top" Width="800" Grid.RowSpan="2" Grid.ColumnSpan="2" Background="#FF272727" FontFamily="Candara" FontSize="20" Foreground="White">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="300"/>
+                            <ColumnDefinition Width="400"/>
                             <ColumnDefinition Width="150"/>
                             <ColumnDefinition Width="150"/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" Text="{Binding Name}"/>
                         <TextBlock Grid.Column="1" Text="{Binding Flight_Plan.Departure}"/>
-                        <TextBlock Grid.Column="2"  Text="{Binding Flight_Plan.Arrival}"/>
+                        <TextBlock Grid.Column="2" Text="{Binding Flight_Plan.Arrival}"/>
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
-            <ListBox.Effect>
-                <DropShadowEffect/>
-            </ListBox.Effect>
         </ListBox>
-        <ProgressBar x:Name="flightProgressBar" HorizontalAlignment="Left" Height="25" Margin="30,374,0,0" VerticalAlignment="Top" Width="732" RenderTransformOrigin="0.5,0.5">
-            <ProgressBar.Effect>
-                <DropShadowEffect/>
-            </ProgressBar.Effect>
-        </ProgressBar>
-        <Label x:Name="totalFlightLabel" Content="" HorizontalAlignment="Left" Margin="30,56,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="16"/>
-        <Label x:Name="flightInfo" Content="" HorizontalAlignment="Left" Margin="30,327,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Bold" Width="732" VerticalContentAlignment="Center"/>
-        <Canvas x:Name="loadingPage" HorizontalAlignment="Left" Height="419" VerticalAlignment="Top" Width="792">
-            <Rectangle x:Name="loadingPanel" Fill="#FFF4F4F5" Height="420" Stroke="Black" Width="795"/>
-            <Label x:Name="loadingLabel" Content="" Height="90" Canvas.Left="175" Canvas.Top="140" Width="435" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="36" FontFamily="Candara" FontWeight="Bold"/>
-            <ProgressBar x:Name="loadingProgressBar" Height="50" Canvas.Left="125" Canvas.Top="280" Width="545"/>
-        </Canvas>
+        <Label x:Name="journeyLabel" Content="" Grid.Column="1" HorizontalAlignment="Left" Margin="20,118,0,0" Grid.Row="1" VerticalAlignment="Top" Height="95" Width="800" FontFamily="Candara" FontSize="20" Foreground="White" Grid.ColumnSpan="2" UseLayoutRounding="True" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+        <Label x:Name="flyingProgressLabel" Content="" Grid.Column="2" Margin="47,211,236,73" Grid.Row="1" FontFamily="Candara" FontSize="20" TextOptions.TextHintingMode="Fixed" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Width="480" Height="46" TextOptions.TextFormattingMode="Display" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <Image x:Name="planeTakingOffPicture" HorizontalAlignment="Left" Height="165" Margin="0,168,0,-3" Grid.Row="1" VerticalAlignment="Top" Width="160" Grid.ColumnSpan="2" Source="TakeOff.png" Grid.Column="1" Stretch="Fill"/>
+        <Image x:Name="planeLandingPicture" Grid.Column="2" HorizontalAlignment="Left" Height="119" Margin="567,199,0,0" Grid.Row="1" VerticalAlignment="Top" Width="120" Source="Landing-removebg-preview.png"/>
+        <ProgressBar x:Name="flyingProgressBar" Grid.Column="2" HorizontalAlignment="Left" Height="24" Margin="47,253,0,0" Grid.Row="1" VerticalAlignment="Top" Width="480"/>
     </Grid>
 </Window>

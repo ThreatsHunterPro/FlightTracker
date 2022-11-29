@@ -1,0 +1,395 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>FlightTracker</name>
+    </assembly>
+    <members>
+        <member name="T:FlightTracker.Flight">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:FlightTracker.Flight.FlightRules">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:FlightTracker.Flight.AirCraft">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:FlightTracker.Flight.AirCraftFaa">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:FlightTracker.Flight.AirCraftShort">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:FlightTracker.Flight.Departure">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:FlightTracker.Flight.Arrival">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:FlightTracker.Flight.Alternate">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:FlightTracker.Flight.CruiseTas">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:FlightTracker.Flight.Altitude">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:FlightTracker.Flight.DepTime">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:FlightTracker.Flight.EnRouteTime">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:FlightTracker.Flight.FuelTime">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:FlightTracker.Flight.Remarks">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:FlightTracker.Flight.Route">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:FlightTracker.Flight.RevisionId">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:FlightTracker.Flight.AssignedTransponder">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:FlightTracker.Flight.LogonTime">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:FlightTracker.Flight.LastUpdated">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:FlightTracker.Flight.#ctor(System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.Int32,System.String,System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="_flightRules"></param>
+            <param name="_airCraft"></param>
+            <param name="_airCraftFaa"></param>
+            <param name="_airCraftShort"></param>
+            <param name="_departure"></param>
+            <param name="_arrival"></param>
+            <param name="_alternate"></param>
+            <param name="_cruiseTas"></param>
+            <param name="_altitude"></param>
+            <param name="_depTime"></param>
+            <param name="_enRouteTime"></param>
+            <param name="_fuelTime"></param>
+            <param name="_remarks"></param>
+            <param name="_route"></param>
+            <param name="_revisionId"></param>
+            <param name="_assignedTransponder"></param>
+            <param name="_logonTime"></param>
+            <param name="_lastUpdated"></param>
+        </member>
+        <member name="T:FlightTracker.GeneralData">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:FlightTracker.GeneralData.Version">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:FlightTracker.GeneralData.Reload">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:FlightTracker.GeneralData.Update">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:FlightTracker.GeneralData.UpdateTimesTamp">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:FlightTracker.GeneralData.Connected_Clients">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:FlightTracker.GeneralData.Unique_Users">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:FlightTracker.GeneralData.#ctor(System.Int32,System.Int32,System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="_version"></param>
+            <param name="_reload"></param>
+            <param name="_update"></param>
+            <param name="_updateTimesTamp"></param>
+            <param name="_connectedClients"></param>
+            <param name="_uniqueUsers"></param>
+        </member>
+        <member name="T:FlightTracker.Pilot">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:FlightTracker.Pilot.Cid">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:FlightTracker.Pilot.Name">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:FlightTracker.Pilot.CallSign">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:FlightTracker.Pilot.Server">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:FlightTracker.Pilot.PilotRating">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:FlightTracker.Pilot.Latitude">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:FlightTracker.Pilot.Longitude">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:FlightTracker.Pilot.Altitude">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:FlightTracker.Pilot.GroundSpeed">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:FlightTracker.Pilot.Transponder">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:FlightTracker.Pilot.Heading">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:FlightTracker.Pilot.QnhIHg">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:FlightTracker.Pilot.QnhMb">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:FlightTracker.Pilot.Flight_Plan">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:FlightTracker.Pilot.LogonTime">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:FlightTracker.Pilot.LastUpdated">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:FlightTracker.Flights">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:FlightTracker.Flights.General">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:FlightTracker.Flights.Item(System.Int32)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:FlightTracker.Flights.Pilots">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:FlightTracker.Airports">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:FlightTracker.Airports.Item(System.Int32)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:FlightTracker.Airports.FlyingList">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:FlightTracker.Airports.FindAirport(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="_code"></param>
+            <returns></returns>
+        </member>
+        <member name="T:FlightTracker.Airport">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:FlightTracker.Airport.Icao">
+            <summary>
+                
+            </summary>
+        </member>
+        <member name="P:FlightTracker.Airport.Name">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:FlightTracker.Airport.Lat">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:FlightTracker.Airport.Lon">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:FlightTracker.App">
+            <summary>
+            Logique d'interaction pour App.xaml
+            </summary>
+            <summary>
+            App
+            </summary>
+        </member>
+        <member name="M:FlightTracker.App.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="M:FlightTracker.App.Main">
+            <summary>
+            Application Entry Point.
+            </summary>
+        </member>
+        <member name="T:FlightTracker.DataLoader">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:FlightTracker.DataLoader.LoadAirports(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="_path"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FlightTracker.DataLoader.LoadFlights(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="_path"></param>
+            <returns></returns>
+        </member>
+        <member name="T:FlightTracker.MainWindow">
+            <summary>
+            Logique d'interaction pour MainWindow.xaml
+            </summary>
+            <summary>
+            MainWindow
+            </summary>
+        </member>
+        <member name="M:FlightTracker.MainWindow.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:FlightTracker.MainWindow.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:FlightTracker.Properties.Resources">
+            <summary>
+              Une classe de ressource fortement typée destinée, entre autres, à la consultation des chaînes localisées.
+            </summary>
+        </member>
+        <member name="P:FlightTracker.Properties.Resources.ResourceManager">
+            <summary>
+              Retourne l'instance ResourceManager mise en cache utilisée par cette classe.
+            </summary>
+        </member>
+        <member name="P:FlightTracker.Properties.Resources.Culture">
+            <summary>
+              Remplace la propriété CurrentUICulture du thread actuel pour toutes
+              les recherches de ressources à l'aide de cette classe de ressource fortement typée.
+            </summary>
+        </member>
+    </members>
+</doc>

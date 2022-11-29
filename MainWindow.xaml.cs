@@ -1,114 +1,91 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using FlightTrackerCorr.Source;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
 using System.Windows.Threading;
 
-namespace FlightTrackerCorr
+using MyLib.FlightCalculation;
+
+namespace FlightTracker
 {
     /// <summary>
     /// Logique d'interaction pour MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
-        public event Action<Pilot, Airport, Airport> OnFlightSelected = null;
+        WebClient webClient = new WebClient();
+        DataLoader datas = new DataLoader();
+        Airports airports = new Airports();
 
-        Pilot[] pilots = new Pilot[0];
-        AirportDatabase AirportDB = new AirportDatabase();
-        LoadingSystem loading = new LoadingSystem();
-
+        /// <summary>
+        /// 
+        /// </summary>
         public MainWindow()
         {
             InitializeComponent();
-            loading.OnUpdatePercentProgress += LoadingScreenProgress;
-            reloadButton.Click += (_sender, _event) => OnReloadClicked(_sender, _event);
-            InitFlightTracker();
+            InitTimer();
+            flightList.SelectionChanged += (a, b) => OnFlightSelected(flightList.SelectedIndex);
+            refreshButton.Click += (_sender, _routedEventArgs) => OnRefreshed(_sender, _routedEventArgs);
+            string _jsonPilots = webClient.DownloadString("https://data.vatsim.net/v3/vatsim-data.json");
+            flightList.ItemsSource = datas.LoadFlights(_jsonPilots).Pilots;
+            airports = datas.LoadAirports("airports.json");
         }
-        void InitFlightTracker()
+
+        void InitTimer()
         {
-            loading.Reset();
-            LoadingScreenVisibility(Visibility.Visible);
-            pilotList.SelectionChanged += (_sender, _eventArgs) => LoadFlightDatas();
-            DataAPI.GetDataFromAPI(BaseURL.GET_AIRPORTS_API, (_aiports) =>
-            DataAPI.GetData<Airports, AirportDataException>(_aiports, "{ \"AirportsDB\":" + _aiports.Result + "}", (_airport) =>
-            {
-                SetAirportDictionary(_airport);
-                loading.UpdateProgress(2);
-                DataAPI.GetDataFromAPI(BaseURL.GET_PILOTS_API, (_pilots) =>
-                DataAPI.GetData<PilotsDB, PilotDataException>(_pilots, _pilots.Result, (_pilot) =>
-                {
-                    LoadPilotsData(_pilot);
-                    loading.UpdateProgress(2);
-                    LoadingScreenVisibility(Visibility.Hidden);
-                }));
-                
-            }));
-            OnFlightSelected += (_pilot, _from, _to) =>
-            {
-                SetFlightInfoValues(_pilot, _from, _to);
-                DataAPI.GetWorldLocation(_pilot);
-            };
+            DispatcherTimer _timer = new DispatcherTimer();
+            _timer.Interval = TimeSpan.FromSeconds(1);
+            _timer.Tick += (a, b) => UpdateTime();
+            _timer.Start();
         }
-        void LoadingScreenProgress(float _percent)
+        void UpdateTime()
         {
-            loadingLabel.Content = $"Downloading flights : {_percent}%";
-            loadingProgressBar.Value = _percent;
+            DateTime _dateTime = DateTime.Now;
+            dateAndTimeLabel.Content = $"{_dateTime.ToString()}";
         }
-        void LoadingScreenVisibility(Visibility _visibility)
+
+        float GetLatInFloat(string _value)
         {
-            loadingPage.Visibility = _visibility;
+            return float.Parse(_value.Replace('.', ','));
         }
-        void SetAirportDictionary(Airports _allAirports)
+        void OnFlightSelected(int _index)
         {
-            for (int i = 0; i < _allAirports.Total; i++)
-            {
-                Airport _airport = _allAirports[i];
-                AirportDB.AddAirport(_airport);
-            }
+            if (_index < 0 || _index > flightList.Items.Count) return;
+            Pilot _currentPilot = (Pilot)flightList.Items[_index];
+            if (_currentPilot.Flight_Plan == null) return;
+
+            Airport _aiportDeparture = airports.FindAirport(_currentPilot.Flight_Plan.Departure);
+            if (_aiportDeparture == null) { _aiportDeparture = new Airport() { Name = "Missing Informations" }; return; }
+            Airport _aiportArrival = airports.FindAirport(_currentPilot.Flight_Plan.Arrival);
+            if (_aiportArrival == null) { _aiportArrival = new Airport() { Name = "Missing Informations" }; return; }
+
+            float _distanceTravelled = FlightCalculation.DistanceCalculation(GetLatInFloat(_aiportDeparture.Lat), GetLatInFloat(_aiportDeparture.Lon), _currentPilot.Latitude, _currentPilot.Longitude);
+            float _disctanceToTravel = FlightCalculation.DistanceCalculation(GetLatInFloat(_aiportDeparture.Lat), GetLatInFloat(_aiportDeparture.Lon), GetLatInFloat(_aiportArrival.Lat), GetLatInFloat(_aiportArrival.Lon));
+            int _percentage = FlightCalculation.GetDistanceRemainingInPercentage(_distanceTravelled, _disctanceToTravel);
+
+            journeyLabel.Content = $"{_currentPilot.Flight_Plan.Departure} ({_aiportDeparture.Name}) to {_currentPilot.Flight_Plan.Arrival} ({_aiportArrival.Name})";
+            flyingProgressLabel.Content = $"{_distanceTravelled} / {_disctanceToTravel} nm - {_percentage}%";
+            flyingProgressBar.Value = _percentage;
+            Process.Start($"https://www.google.fr/maps/place/{_currentPilot.Latitude.ToString().Replace(',', '.')}+{_currentPilot.Longitude.ToString().Replace(',', '.')}/");
         }
-        void LoadPilotsData(PilotsDB _database)
+        void OnRefreshed(object _sender, RoutedEventArgs _routedEventArgs)
         {
-            pilots = _database.Pilots;
-            pilotList.ItemsSource = _database.Pilots;
-            totalFlightLabel.Content = $"Currently Tracking {_database.Total} flights";
-        }
-        void LoadFlightDatas()
-        {
-            if (pilotList.SelectedIndex < 0) return;
-            Pilot _pilot = (Pilot)pilotList.Items[pilotList.SelectedIndex];
-            if (!_pilot.IsFlightPlanValid)
-            {
-                MessageBox.Show(new MissingFlightPlanException().Message);
-                return;
-            }
-            Airport _from = AirportDB.GetAirport(_pilot?.Flight_Plan.Departure);
-            Airport _to = AirportDB.GetAirport(_pilot?.Flight_Plan.Arrival);
-            OnFlightSelected?.Invoke(_pilot, _from, _to); 
-        }
-        void SetFlightInfoValues(Pilot _pilot, Airport _from, Airport _to)
-        {
-            if (_from == null || _to == null) return;
-            double _fromDistance = GeoTools.GetDistanceTo(_pilot, _from);
-            double _totalDistance = GeoTools.GetDistanceTo(_from, _to);
-            int _progress = GeoTools.GetPercentProgressTo(_fromDistance, _totalDistance);
-            flightInfo.Content = $"Current flight : {_from.Name} - {_to.Name}\n" +
-                                 $"{(int)_fromDistance} nm / {(int)_totalDistance} nm - {_progress}%";
-            flightProgressBar.Value = _progress;
-        }
-        void ResetFlightInfo()
-        {
-            flightInfo.Content = "Current flight :";
-            flightProgressBar.Value = 0;
-        }
-        private void OnReloadClicked(object sender, RoutedEventArgs e)
-        {
-            DataAPI.GetDataFromAPI(BaseURL.GET_PILOTS_API, (_result) =>
-                                   DataAPI.GetData<PilotsDB, PilotDataException>(_result, _result.Result, LoadPilotsData));
-            ResetFlightInfo();
+            refreshButton.Background = Brushes.Red;
+            string _jsonPilots = webClient.DownloadString("https://data.vatsim.net/v3/vatsim-data.json");
+            flightList.ItemsSource = datas.LoadFlights(_jsonPilots).Pilots;
+            refreshButton.Background = Brushes.White;
         }
     }
 }
